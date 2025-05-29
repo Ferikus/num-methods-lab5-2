@@ -51,18 +51,16 @@ namespace LAB_CHM_2023_3_1
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(179, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(125, 13);
+            this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(665, 13);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(141, 13);
+            this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "";
             // 
             // graph3D2
             // 
@@ -110,8 +108,8 @@ namespace LAB_CHM_2023_3_1
             this.Controls.Add(this.button1);
             this.Controls.Add(this.graph3D2);
             this.Controls.Add(this.graph3D1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form4";
-            this.Text = "";
             this.ResumeLayout(false);
             this.PerformLayout();
 

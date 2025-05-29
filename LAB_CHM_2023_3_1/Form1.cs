@@ -99,12 +99,10 @@ namespace LAB_CHM_2023_3_1
             char[] buffer = new char [100];
             double errorMax = 0.0;
             double error;
-            //double MaxF = 0.0;
 
             double[][] r;        // Вектор невязки
             double initR = 0.0;  // Начальная невязка
-            double currR = 0.0;   // Текущая невязка для метода
-            //double maxR = 0.0;   // Невязка на последнем шаге
+            double currR = 0.0;   // Текущая невязка
 
             x = new double[n + 1];
             y = new double[m + 1];
@@ -170,107 +168,115 @@ namespace LAB_CHM_2023_3_1
                 }
             }
 
-            // =========  CONJUGATE GRADIENT METHOD =========
+            // =========  CONJUGATE GRADIENT METHOD (исправленная версия) =========
 
-            double[][] p = new double[n + 1][];  // Направление
-            double[][] Ap = new double[n + 1][]; // A * p
+            double[][] v_old = new double[n + 1][]; // Предыдущее приближение
+            for (int i = 0; i <= n; i++)
+            {
+                v_old[i] = new double[m + 1];
+                Array.Copy(v1[i], v_old[i], m + 1); // Копируем начальное приближение
+            }
+
+            double[][] p = new double[n + 1][];
+            double[][] Ap = new double[n + 1][];
             double rr_old = 0.0;
 
             // Инициализация массивов
             for (int i = 0; i <= n; i++)
             {
-                r[i] = new double[m + 1];
                 p[i] = new double[m + 1];
                 Ap[i] = new double[m + 1];
             }
 
-            // Начальная невязка r = A*v1 - f
+            // Начальная невязка r = A*v1 - f (евклидова норма)
+            double rr_sum = 0.0;
             for (int j = 1; j < m; j++)
             {
                 for (int i = 1; i < n; i++)
                 {
                     r[i][j] = A * v1[i][j] - h2 * (v1[i - 1][j] + v1[i + 1][j]) - k2 * (v1[i][j - 1] + v1[i][j + 1]) - rhs[i][j];
-                    p[i][j] = r[i][j]; // Начальное направление p0 = r0
-
-                    rr_old += r[i][j] * r[i][j]; // ??? 
-
-                    // Расчёт максимальной нормы начальной невязки
-                    if (Math.Abs(r[i][j]) > initR)
-                        initR = Math.Abs(r[i][j]);
+                    p[i][j] = r[i][j];
+                    rr_sum += r[i][j] * r[i][j];
                 }
             }
+            initR = Math.Sqrt(rr_sum);
             currR = initR;
+            rr_old = rr_sum;
 
+            double pAp = 0.0;
             double alpha, beta, rr_new;
             int iter_num = 0;
+            double maxDiff = double.MaxValue; // Максимальная разница между итерациями
 
-            while (iter_num < N_max && currR > Eps)
+            while (iter_num < N_max && maxDiff > Eps) // Критерий останова по разности итераций
             {
-                // Вычисление Ap = A * p
-                for (int j = 1; j < m; j++)
-                    for (int i = 1; i < n; i++)
-                        Ap[i][j] = A * p[i][j] - h2 * (p[i - 1][j] + p[i + 1][j]) - k2 * (p[i][j - 1] + p[i][j + 1]);
-
-                // Расчет alpha
-                double pAp = 0.0;
-                for (int j = 1; j < m; j++)
-                    for (int i = 1; i < n; i++)
-                        pAp += p[i][j] * Ap[i][j];
-
-                alpha = - rr_old / pAp;
-
-                // Обновление решения и невязки
-                for (int j = 1; j < m; j++)
-                    for (int i = 1; i < n; i++)
-                    {
-                        v1[i][j] += alpha * p[i][j];
-                        r[i][j] += alpha * Ap[i][j];
-                    }
-
-                // Новая норма невязки
-                rr_new = 0.0;
-                for (int j = 1; j < m; j++)
-                    for (int i = 1; i < n; i++)
-                        rr_new += r[i][j] * r[i][j];
-
-                currR = 0.0;
+                pAp = 0.0;
                 for (int j = 1; j < m; j++)
                 {
                     for (int i = 1; i < n; i++)
                     {
-                        if (Math.Abs(r[i][j]) > currR)
-                            currR = Math.Abs(r[i][j]);
+                        // Сохраняем текущее приближение перед обновлением
+                        v_old[i][j] = v1[i][j];
+                        // Вычисляем pAp = p * Ap = p * (A * p)
+                        Ap[i][j] = A * p[i][j] - h2 * (p[i - 1][j] + p[i + 1][j]) - k2 * (p[i][j - 1] + p[i][j + 1]);
+                        pAp += p[i][j] * Ap[i][j];
+                    }
+                }
+                alpha = -rr_old / pAp;
+
+                // Обновление решения и невязки
+                for (int j = 1; j < m; j++)
+                {
+                    for (int i = 1; i < n; i++)
+                    {
+                        v1[i][j] += alpha * p[i][j]; // Обновляем v1
+                        r[i][j] += alpha * Ap[i][j]; // Обновляем невязку
                     }
                 }
 
-                // Критерий остановки по max-норме
-                if (currR < Eps)
-                    break;
+                // Новая норма невязки (евклидова)
+                rr_new = 0.0;
+                for (int j = 1; j < m; j++)
+                {
+                    for (int i = 1; i < n; i++)
+                    {
+                        rr_new += r[i][j] * r[i][j];
+                    }
+                }
+                currR = Math.Sqrt(rr_new); // Евклидова норма текущей невязки
+
+                // Вычисляем максимальную разницу между текущей и предыдущей итерациями
+                maxDiff = 0.0;
+                for (int j = 1; j < m; j++)
+                {
+                    for (int i = 1; i < n; i++)
+                    {
+                        double diff = Math.Abs(v1[i][j] - v_old[i][j]);
+                        if (diff > maxDiff)
+                        {
+                            maxDiff = diff;
+                        }
+                    }
+                }
 
                 beta = rr_new / rr_old;
                 rr_old = rr_new;
 
                 // Обновление направления
                 for (int j = 1; j < m; j++)
+                {
                     for (int i = 1; i < n; i++)
+                    {
                         p[i][j] = r[i][j] + beta * p[i][j];
+                    }
+                }
 
                 iter_num++;
             }
 
-            // Максимальная невязка R(N)
-            //for (int j = 1; j < m; j++)
-            //{
-            //    for (int i = 1; i < n; i++)
-            //    {
-            //        if (r[i][j] > maxR)
-            //            maxR = r[i][j];
-            //    }
-            //}
-
             // =========  FILLING THE TABLE =========
 
-            dataGridView1.Rows.Clear();
+            /*dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
             dataGridView1.Columns.Add("C1", "");
             dataGridView1.Columns[0].Width = 50;
@@ -338,24 +344,20 @@ namespace LAB_CHM_2023_3_1
                     dataGridView3.Rows[j + 1].Cells[0].Value = j;
                     dataGridView3.Rows[j + 1].Cells[1].Value = y[j];
                 }
-            }
+            }*/
             double xMax = 0.0;
             double yMax = 0.0;
 
-            // Заполнение таблиц значениями
+            //// Заполнение таблиц значениями
             for (int j = 0; j <= m; j++)
             {
                 for (int i = 0; i <= n; i++)
                 {
                     error = Math.Abs(u[i][j] - v1[i][j]);
-                    v1[i][j] = Math.Round(v1[i][j] * 1000) / 1000;
-                    u[i][j] = Math.Round(u[i][j] * 1000) / 1000;
 
-                    dataGridView1.Rows[j + 1].Cells[i + 2].Value = u[i][j];
-                    
-                    dataGridView2.Rows[j + 1].Cells[i + 2].Value = v1[i][j];
-
-                    dataGridView3.Rows[j + 1].Cells[i + 2].Value = error;
+                    //dataGridView1.Rows[j + 1].Cells[i + 2].Value = u[i][j].ToString("0.000000000");
+                    //dataGridView2.Rows[j + 1].Cells[i + 2].Value = v1[i][j].ToString("0.000000000");
+                    //dataGridView3.Rows[j + 1].Cells[i + 2].Value = error.ToString("0.000000000");
 
                     if (error > errorMax)
                     {
@@ -364,13 +366,13 @@ namespace LAB_CHM_2023_3_1
                         yMax = y[j];
                     }
                 }
-               
+
             }
 
             // =========  FILLING THE REFERENCE =========
 
             textBoxIterNumTest.Text = iter_num.ToString();
-            textBoxErrorTest.Text = currR.ToString("E4");                   // Максимальная невязка
+            textBoxErrorTest.Text = maxDiff.ToString("E4");
             textBoxMaxDevTest.Text = errorMax.ToString("E4"); // Погрешность решения
             textBoxResidualInitTest.Text = initR.ToString("E4");  // Начальная невязка
             textBoxResidualTest.Text = currR.ToString("E4");
@@ -382,66 +384,105 @@ namespace LAB_CHM_2023_3_1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            int n = Convert.ToInt32(textBoxNMain.Text);                // Количество участков по x
-            int m = Convert.ToInt32(textBoxMMain.Text);                // Количество участков по y
-            int N_max = Convert.ToInt32(textBoxMaxIterMain.Text);      // Максимальное число итераций
-            double Eps = Convert.ToDouble(textBoxPrecisionMain.Text);  // Критерий останова по невязке
+            // =========  VARIABLE INITIALIZATION =========
 
             double a = 0.0; // Левая граница по x
             double b = 1.0; // Правая граница по x
             double c = 0.0; // Левая граница по y
             double d = 1.0; // Правая граница по y
 
-            double h = (b - a) / (double)n, k = (d - c) / (double)m;   // Шаги по x и y
+            // Для основной сетки:
+
+            int n = Convert.ToInt32(textBoxNMain.Text);                // Количество участков по x
+            int m = Convert.ToInt32(textBoxMMain.Text);                // Количество участков по y
+            int N_max = Convert.ToInt32(textBoxMaxIterMain.Text);      // Максимальное число итераций
+            double Eps = Convert.ToDouble(textBoxPrecisionMain.Text);  // Критерий останова по невязке
+
+            double h = (b - a) / (double)n; // Шаг по x
+            double k = (d - c) / (double)m; // Шаг по  y
 
             // Коэффициенты разностной схемы
             double h2 = 1.0 / (h * h), k2 = 1.0 / (k * k);
             double A = 2 * (h2 + k2);
 
-            double[][] rhs;   // Вектор правой части
-            double[] x, y;    // Границы по х и по y
+            double[][] rhs = new double[n + 1][];   // Вектор правой части
+            double[] x = new double[n + 1];
+            double[] y = new double[m + 1];    // Границы по х и по y
             char[] buffer = new char[100];
-            double errorMax = 0.0;
-            double error;
 
-            double[][] r;        // Вектор невязки
+            double errorMax = 0.0; // Максимальное отклонение |U_U2|
+            double error; // Отклонение |U_U2|
+
+            double[][] v_old = new double[n + 1][]; ;                    // Предыдущее приближение
+            double[][] p = new double[n + 1][];  // Направление
+            double[][] Ap = new double[n + 1][]; // A * p (матрица * вектор = вектор)
+            double pAp;                          // p * Ap (вектор * вектор = число)
+            double alpha, beta;                  // Вспомогательные коэффициенты МСГ
+            int iter_num = 0;                    // Использованное количество итераций
+            double maxDiff = double.MaxValue;    // Максимальная разница между итерациями
+
+            double[][] r = new double[n + 1][]; ;  // Вектор невязки
+            double rr_old = 0.0; // Невязка до обновления
+            double rr_new = 0.0; // Невязка после обновления
             double initR = 0.0;  // Начальная невязка
             double currR = 0.0;  // Текущая невязка для метода
-            //double maxR = 0.0;   // Невязка на последнем шаге
 
-            x = new double[n + 1];
-            y = new double[m + 1];
             v2 = new double[n + 1][];
-            rhs = new double[n + 1][];
-            r = new double[n + 1][];
 
             for (int i = 0; i <= n; i++)
             {
                 v2[i] = new double[m + 1];
                 rhs[i] = new double[m + 1];
                 r[i] = new double[m + 1];
+                v_old[i] = new double[m + 1];
+                p[i] = new double[m + 1];
+                Ap[i] = new double[m + 1];
             }
+
+            // Для сетки с половинным шагом:
+
+            int n2 = 2 * n;
+            int m2 = 2 * m;
+            double h2_half = (b - a) / n2;
+            double k2_half = (d - c) / m2;
+
+            double[][] p_half = new double[n2 + 1][];
+            double[][] Ap_half = new double[n2 + 1][];
+            double[][] v_old_half = new double[n2 + 1][]; // Для хранения предыдущего приближения
+
+            // Коэффициенты для сетки с половинным шагом
+            double h2_h = 1.0 / (h2_half * h2_half);
+            double k2_h = 1.0 / (k2_half * k2_half);
+            double A_h = 2 * (h2_h + k2_h);
+
+            double[] x_half = new double[n2 + 1];
+            double[] y_half = new double[m2 + 1];
+            v2_2 = new double[n2 + 1][];
+            double[][] rhs_half = new double[n2 + 1][];
+            double[][] r_half = new double[n2 + 1][];
+
+            for (int i = 0; i <= n2; i++)
+            {
+                p_half[i] = new double[m2 + 1];
+                Ap_half[i] = new double[m2 + 1];
+                v_old_half[i] = new double[m2 + 1];
+                v2_2[i] = new double[m2 + 1];
+                rhs_half[i] = new double[m2 + 1];
+                r_half[i] = new double[m2 + 1];
+            }
+
+            // ========= SOLUTION WITH NORMAL STEP =========
 
             // =========  FILLING THE GRID =========
 
-            // Заполнение массива x
-            for (int i = 0; i <= n; i++)
-            {
-                x[i] = a + i * h;
-            }
-
-            // Заполнение массива y
-            for (int j = 0; j <= m; j++)
-            {
-                y[j] = c + j * k;
-            }
-
-            // Заполнение массива правой части f(x,y)
+            for (int i = 0; i <= n; i++) x[i] = a + i * h;
+            for (int j = 0; j <= m; j++) y[j] = c + j * k;
+                  
             for (int j = 0; j <= m; j++)
             {
                 for (int i = 0; i <= n; i++)
                 {
-                    rhs[i][j] = -f2(x[i], y[j]); // Используем f2 из основной задачи
+                    rhs[i][j] = -f2(x[i], y[j]);
                     r[i][j] = 0;
                 }
             }
@@ -470,20 +511,14 @@ namespace LAB_CHM_2023_3_1
                 }
             }
 
-            // =========  CONJUGATE GRADIENT METHOD =========
-
-            double[][] p = new double[n + 1][];  // Направление
-            double[][] Ap = new double[n + 1][]; // A * p
-
-            // Инициализация массивов
             for (int i = 0; i <= n; i++)
             {
-                p[i] = new double[m + 1];
-                Ap[i] = new double[m + 1];
+                Array.Copy(v2[i], v_old[i], m + 1); // Копируем начальное приближение
             }
 
-            // Начальная невязка r = A*v2 - f
-            double rr_old = 0.0;
+            // =========  CONJUGATE GRADIENT METHOD =========
+
+            // Начальная невязка r = A*v2 - f (евклидова норма)
             for (int j = 1; j < m; j++)
             {
                 for (int i = 1; i < n; i++)
@@ -491,91 +526,82 @@ namespace LAB_CHM_2023_3_1
                     r[i][j] = A * v2[i][j] - h2 * (v2[i - 1][j] + v2[i + 1][j]) - k2 * (v2[i][j - 1] + v2[i][j + 1]) - rhs[i][j];
                     p[i][j] = r[i][j]; // Начальное направление p0 = r0
                     rr_old += r[i][j] * r[i][j];
-
-                    // Расчёт максимальной нормы начальной невязки
-                    if (Math.Abs(r[i][j]) > initR)
-                        initR = Math.Abs(r[i][j]);
                 }
             }
+            initR = Math.Sqrt(rr_old); // Начальная невязка в евклидовой норме
             currR = initR;
 
-            double alpha, beta, rr_new;
-            int iter_num = 0;
-
-            while (iter_num < N_max && currR > Eps)
+            while (iter_num < N_max && maxDiff > Eps)
+                // Критерий останова по максимальному числу итераций
+                // и по точности метода
             {
-                // Вычисление Ap = A * p
-                for (int j = 1; j < m; j++)
-                    for (int i = 1; i < n; i++)
-                        Ap[i][j] = A * p[i][j] - h2 * (p[i - 1][j] + p[i + 1][j]) - k2 * (p[i][j - 1] + p[i][j + 1]);
-
-                // Расчет alpha
-                double pAp = 0.0;
-                for (int j = 1; j < m; j++)
-                    for (int i = 1; i < n; i++)
-                        pAp += p[i][j] * Ap[i][j];
-
-                alpha = -rr_old / pAp;
-
-                // Обновление решения и невязки
-                for (int j = 1; j < m; j++)
-                    for (int i = 1; i < n; i++)
-                    {
-                        v2[i][j] += alpha * p[i][j];
-                        r[i][j] += alpha * Ap[i][j];
-                    }
-
-                // Новая норма невязки
-                rr_new = 0.0;
-                for (int j = 1; j < m; j++)
-                    for (int i = 1; i < n; i++)
-                        rr_new += r[i][j] * r[i][j];
-
-                currR = 0.0;
+                pAp = 0.0;
                 for (int j = 1; j < m; j++)
                 {
                     for (int i = 1; i < n; i++)
                     {
-                        if (Math.Abs(r[i][j]) > currR)
-                            currR = Math.Abs(r[i][j]);
+                        // Сохраняем текущее приближение перед обновлением
+                        v_old[i][j] = v2[i][j];
+                        // Вычисляем pAp = p * Ap = p * (A * p)
+                        Ap[i][j] = A * p[i][j] - h2 * (p[i - 1][j] + p[i + 1][j]) - k2 * (p[i][j - 1] + p[i][j + 1]);
+                        pAp += p[i][j] * Ap[i][j];
                     }
                 }
 
-                // Критерий остановки по max-норме
-                if (currR < Eps)
-                    break;
+                // Расчет alpha
+                alpha = -rr_old / pAp;
+
+                // Обновление решения и невязки
+                for (int j = 1; j < m; j++)
+                {
+                    for (int i = 1; i < n; i++)
+                    {
+                        v2[i][j] += alpha * p[i][j]; // Обновляем v2
+                        r[i][j] += alpha * Ap[i][j]; // Обновляем невязку
+                    }
+                }
+
+                // Новая норма невязки (евклидова)
+                rr_new = 0.0;
+                for (int j = 1; j < m; j++)
+                {
+                    for (int i = 1; i < n; i++)
+                    {
+                        rr_new += r[i][j] * r[i][j];
+                    }
+                }
+                currR = Math.Sqrt(rr_new); // Текущая невязка в евклидовой норме
+
+                // Вычисляем максимальную разницу между текущей и предыдущей итерациями
+                maxDiff = 0.0;
+                for (int j = 1; j < m; j++)
+                {
+                    for (int i = 1; i < n; i++)
+                    {
+                        double diff = Math.Abs(v2[i][j] - v_old[i][j]);
+                        if (diff > maxDiff)
+                        {
+                            maxDiff = diff;
+                        }
+                    }
+                }
 
                 beta = rr_new / rr_old;
                 rr_old = rr_new;
 
                 // Обновление направления
                 for (int j = 1; j < m; j++)
+                {
                     for (int i = 1; i < n; i++)
+                    {
                         p[i][j] = r[i][j] + beta * p[i][j];
+                    }
+                }
 
                 iter_num++;
             }
 
             // ========= SOLUTION WITH HALF STEP FOR ACCURACY CONTROL =========
-
-            // Создаем сетку с половинным шагом
-            int n2 = 2 * n;
-            int m2 = 2 * m;
-            double h2_half = (b - a) / n2;
-            double k2_half = (d - c) / m2;
-
-            double[] x_half = new double[n2 + 1];
-            double[] y_half = new double[m2 + 1];
-            v2_2 = new double[n2 + 1][];
-            double[][] rhs_half = new double[n2 + 1][];
-            double[][] r_half = new double[n2 + 1][];
-
-            for (int i = 0; i <= n2; i++)
-            {
-                v2_2[i] = new double[m2 + 1];
-                rhs_half[i] = new double[m2 + 1];
-                r_half[i] = new double[m2 + 1];
-            }
 
             // Заполнение сетки с половинным шагом
             for (int i = 0; i <= n2; i++) x_half[i] = a + i * h2_half;
@@ -603,19 +629,9 @@ namespace LAB_CHM_2023_3_1
                 for (int i = 1; i < n2; i++)
                     v2_2[i][j] = 0.0;
 
-            // Коэффициенты для сетки с половинным шагом
-            double h2_h = 1.0 / (h2_half * h2_half);
-            double k2_h = 1.0 / (k2_half * k2_half);
-            double A_h = 2 * (h2_h + k2_h);
-
-            // Применяем метод сопряженных градиентов для сетки с половинным шагом
-            double[][] p_half = new double[n2 + 1][];
-            double[][] Ap_half = new double[n2 + 1][];
-
             for (int i = 0; i <= n2; i++)
             {
-                p_half[i] = new double[m2 + 1];
-                Ap_half[i] = new double[m2 + 1];
+                Array.Copy(v2_2[i], v_old_half[i], m2 + 1);
             }
 
             // Начальная невязка
@@ -629,51 +645,82 @@ namespace LAB_CHM_2023_3_1
                     rr_old_half += r_half[i][j] * r_half[i][j];
                 }
             }
-
-            double currR_half = Math.Sqrt(rr_old_half);
+            double initR_half = Math.Sqrt(rr_old_half);
+            double currR_half = initR_half;
             int iter_num_half = 0;
+            double maxDiff_half = double.MaxValue;
 
-            while (iter_num_half < N_max && currR_half > Eps)
+            while (iter_num_half < N_max && maxDiff_half > Eps)
             {
                 // Вычисление Ap_half
                 for (int j = 1; j < m2; j++)
+                {
                     for (int i = 1; i < n2; i++)
+                    {
+                        v_old_half[i][j] = v2_2[i][j];
                         Ap_half[i][j] = A_h * p_half[i][j] - h2_h * (p_half[i - 1][j] + p_half[i + 1][j]) - k2_h * (p_half[i][j - 1] + p_half[i][j + 1]);
+                    }
+                }
 
                 // Расчет alpha
                 double pAp_half = 0.0;
                 for (int j = 1; j < m2; j++)
+                {
                     for (int i = 1; i < n2; i++)
+                    {
                         pAp_half += p_half[i][j] * Ap_half[i][j];
+                    }
+                }
 
                 double alpha_half = -rr_old_half / pAp_half;
 
                 // Обновление решения и невязки
                 for (int j = 1; j < m2; j++)
+                {
                     for (int i = 1; i < n2; i++)
                     {
                         v2_2[i][j] += alpha_half * p_half[i][j];
                         r_half[i][j] += alpha_half * Ap_half[i][j];
                     }
+                }
 
                 // Новая норма невязки
                 double rr_new_half = 0.0;
                 for (int j = 1; j < m2; j++)
+                {
                     for (int i = 1; i < n2; i++)
+                    {
                         rr_new_half += r_half[i][j] * r_half[i][j];
+                    }
+                }
 
                 currR_half = Math.Sqrt(rr_new_half);
 
-                if (currR_half < Eps)
-                    break;
+                // Вычисляем максимальную разницу между итерациями
+                maxDiff_half = 0.0;
+                for (int j = 1; j < m2; j++)
+                {
+                    for (int i = 1; i < n2; i++)
+                    {
+                        double diff = Math.Abs(v2_2[i][j] - v_old_half[i][j]);
+                        if (diff > maxDiff_half)
+                        {
+                            maxDiff_half = diff;
+                        }
+                    }
+                }
 
                 double beta_half = rr_new_half / rr_old_half;
                 rr_old_half = rr_new_half;
 
                 // Обновление направления
                 for (int j = 1; j < m2; j++)
+                {
                     for (int i = 1; i < n2; i++)
+                    {
                         p_half[i][j] = r_half[i][j] + beta_half * p_half[i][j];
+                    }
+                }
 
                 iter_num_half++;
             }
@@ -697,21 +744,9 @@ namespace LAB_CHM_2023_3_1
                 }
             }
 
-            // ========= CALCULATE INITIAL RESIDUAL FOR HALF-STEP GRID =========
-            double initR_half = 0.0;
-            for (int j = 1; j < m2; j++)
-            {
-                for (int i = 1; i < n2; i++)
-                {
-                    double residual = A_h * v2_2[i][j] - h2_h * (v2_2[i - 1][j] + v2_2[i + 1][j]) - k2_h * (v2_2[i][j - 1] + v2_2[i][j + 1]) - rhs_half[i][j];
-                    if (Math.Abs(residual) > initR_half)
-                        initR_half = Math.Abs(residual);
-                }
-            }
-
             // ========= FILLING THE TABLES =========
 
-            // Очистка и настройка таблиц
+            /*// Очистка и настройка таблиц
             dataGridView4.Rows.Clear();
             dataGridView4.Columns.Clear();
             dataGridView5.Rows.Clear();
@@ -781,7 +816,7 @@ namespace LAB_CHM_2023_3_1
                     dataGridView6.Rows[j + 1].Cells[0].Value = j;
                     dataGridView6.Rows[j + 1].Cells[1].Value = y[j];
                 }
-            }
+            }*/
 
             // Заполнение таблиц значениями
             for (int j = 0; j <= m; j++)
@@ -789,31 +824,28 @@ namespace LAB_CHM_2023_3_1
                 for (int i = 0; i <= n; i++)
                 {
                     error = Math.Abs(v2[i][j] - v2_2[2 * i][2 * j]);
-                    v2[i][j] = Math.Round(v2[i][j] * 1000) / 1000;
-                    v2_2[2 * i][2 * j] = Math.Round(v2_2[2 * i][2 * j] * 1000) / 1000;
 
-                    dataGridView4.Rows[j + 1].Cells[i + 2].Value = v2[i][j];
-                    dataGridView5.Rows[j + 1].Cells[i + 2].Value = v2_2[2 * i][2 * j];
-                    dataGridView6.Rows[j + 1].Cells[i + 2].Value = error;
+                    //dataGridView4.Rows[j + 1].Cells[i + 2].Value = v2[i][j].ToString("0.000000000"); ;
+                    //dataGridView5.Rows[j + 1].Cells[i + 2].Value = v2_2[2 * i][2 * j].ToString("0.000000000"); ;
+                    //dataGridView6.Rows[j + 1].Cells[i + 2].Value = error.ToString("0.000000000"); ;
                 }
             }
 
             // ========= FILLING THE REFERENCE =========
 
-            textBoxIterNumMain.Text = iter_num.ToString();
-            textBoxErrorMain.Text = currR.ToString("E4");                   // Максимальная невязка на основной сетке
-            textBoxMaxDevMain.Text = errorMax.ToString("E4");               // Погрешность решения (разность между сетками)
-            textBoxResidualInitMain.Text = initR.ToString("E4");            // Начальная невязка на основной сетке
-            textBoxResidualMaxMain.Text = currR.ToString("E4");             // Текущая невязка на основной сетке
+            textBoxIterNumMain.Text = iter_num.ToString();                 // Количество итераций
+            textBoxErrorMain.Text = maxDiff.ToString("E4");                // Максимальная разница между итерациями
+            textBoxMaxDevMain.Text = errorMax.ToString("E4");              // Погрешность решения (разность между сетками)
+            textBoxResidualInitMain.Text = initR.ToString("E4");           // Начальная невязка на основной сетке
+            textBoxResidualMaxMain.Text = currR.ToString("E4");            // Текущая невязка на основной сетке
             textBoxMaxDevXMain.Text = xMax.ToString("F4");
             textBoxMaxDevYMain.Text = yMax.ToString("F4");
-            //textBoxInitGuessMain.Text = "Нулевое начальное приближение";
 
-            // Добавляем информацию о сетке с половинным шагом
-            textBoxIterNumHalfStep.Text = iter_num_half.ToString();
-            textBoxErrorHalfStep.Text = currR_half.ToString("E4");          // Максимальная невязка на сетке с половинным шагом
-            textBoxResidualInitHalfStep.Text = initR_half.ToString("E4");   // Начальная невязка на сетке с половинным шагом
-            textBoxResidualMaxHalfStep.Text = currR_half.ToString("E4");    // Текущая невязка на сетке с половинным шагом
+            // Сетка с половинным шагом
+            textBoxIterNumHalfStep.Text = iter_num_half.ToString();        // Количество итераций с половинным шагом
+            textBoxErrorHalfStep.Text = maxDiff_half.ToString("E4");       // Максимальная разница между итерациями
+            textBoxResidualInitHalfStep.Text = initR_half.ToString("E4");  // Начальная невязка на сетке с половинным шагом
+            textBoxResidualMaxHalfStep.Text = currR_half.ToString("E4");   // Текущая невязка на сетке с половинным шагом
         }
 
         private void button3_Click_1(object sender, EventArgs e)

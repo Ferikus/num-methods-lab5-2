@@ -3,32 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|c:\\users\\\u0432\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|solutionrelative:lab_chm_2023_3_1\\form5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|solutionrelative:lab_chm_2023_3_1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|solutionrelative:lab_chm_2023_3_1\\form4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|solutionrelative:lab_chm_2023_3_1\\form5.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\LAB_CHM_2023_3_2.csproj|C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\LAB_CHM_2023_3_2.csproj|solutionrelative:lab_chm_2023_3_1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form4.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|solutionrelative:lab_chm_2023_3_1\\form4.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\LAB_CHM_2023_3_2.csproj|C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\LAB_CHM_2023_3_2.csproj|solutionrelative:lab_chm_2023_3_1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|solutionrelative:lab_chm_2023_3_1\\form4.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|c:\\users\\\u0432\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\lab_chm_2023_3_1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{A3040268-EFA3-458D-A6D7-9EB9D00BE085}|LAB_CHM_2023_3_1\\NumMethods_Lab5_Step2.csproj|solutionrelative:lab_chm_2023_3_1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,86 +22,28 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Form5.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form5.cs",
-              "RelativeDocumentMoniker": "LAB_CHM_2023_3_1\\Form5.cs",
-              "ToolTip": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form5.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "LAB_CHM_2023_3_1\\Form5.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentIndex": 1,
+              "Title": "Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form1.cs",
+              "RelativeDocumentMoniker": "LAB_CHM_2023_3_1\\Form1.cs",
+              "ToolTip": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "LAB_CHM_2023_3_1\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-25T00:57:19.427Z",
+              "WhenOpened": "2025-05-26T23:56:46.43Z",
               "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Form5.cs",
-              "DocumentMoniker": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form5.cs",
-              "RelativeDocumentMoniker": "LAB_CHM_2023_3_1\\Form5.cs",
-              "ToolTip": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form5.cs",
-              "RelativeToolTip": "LAB_CHM_2023_3_1\\Form5.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-25T00:50:47.899Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Form4.cs",
-              "DocumentMoniker": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form4.cs",
-              "RelativeDocumentMoniker": "LAB_CHM_2023_3_1\\Form4.cs",
-              "ToolTip": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form4.cs",
-              "RelativeToolTip": "LAB_CHM_2023_3_1\\Form4.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAWwN8AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-25T00:16:33.173Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Form4.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form4.Designer.cs",
-              "RelativeDocumentMoniker": "LAB_CHM_2023_3_1\\Form4.Designer.cs",
-              "ToolTip": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form4.Designer.cs",
-              "RelativeToolTip": "LAB_CHM_2023_3_1\\Form4.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-25T00:19:54.614Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Form4.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form4.cs",
-              "RelativeDocumentMoniker": "LAB_CHM_2023_3_1\\Form4.cs",
-              "ToolTip": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\ChislMethod_2023_lab2_part2-main\\LAB_CHM_2023_3_2\\LAB_CHM_2023_3_1\\Form4.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "..\\ChislMethod_2023_lab2_part2-main\\LAB_CHM_2023_3_2\\LAB_CHM_2023_3_1\\Form4.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-25T00:16:26.511Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form1.cs",
-              "RelativeDocumentMoniker": "LAB_CHM_2023_3_1\\Form1.cs",
-              "ToolTip": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\ChislMethod_2023_lab2_part2-main\\LAB_CHM_2023_3_2\\LAB_CHM_2023_3_1\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "..\\ChislMethod_2023_lab2_part2-main\\LAB_CHM_2023_3_2\\LAB_CHM_2023_3_1\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-22T15:46:16.848Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form1.cs",
               "RelativeDocumentMoniker": "LAB_CHM_2023_3_1\\Form1.cs",
               "ToolTip": "C:\\Users\\\u0412\u044F\u0447\u0435\u0441\u043B\u0430\u0432\\source\\repos\\num-methods-lab5-2\\LAB_CHM_2023_3_1\\Form1.cs",
               "RelativeToolTip": "LAB_CHM_2023_3_1\\Form1.cs",
-              "ViewState": "AgIAAC0DAAAAAAAAAADwvz4DAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAANgAAAAAAAAAAAAqwNoAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T23:38:57.959Z"
+              "WhenOpened": "2025-05-26T23:56:51.357Z",
+              "EditorCaption": ""
             }
           ]
         }
