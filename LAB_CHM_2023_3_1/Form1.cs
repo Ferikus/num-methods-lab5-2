@@ -40,8 +40,10 @@ namespace LAB_CHM_2023_3_1
         }
         double f1(double x, double y) // Функция полученная через Лапласса
         {
-            return -0.5 * Math.PI * Math.PI * (x * x + y * y) * Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2))
-                * (-4 * Math.Cos(2 * Math.PI * x * y) + Math.Cos(4 * Math.PI * x * y) - 1);
+            //return -0.5 * Math.PI * Math.PI * (x * x + y * y) * Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2))
+            //    * (-4 * Math.Cos(2 * Math.PI * x * y) + Math.Cos(4 * Math.PI * x * y) - 1);
+            return -Math.PI * Math.PI * (x * x + y * y) * (Math.Pow(Math.Sin(2 * Math.PI * x * y), 2) + 2
+                * Math.Cos(2 * Math.PI * x * y)) * Math.Exp(Math.Pow(Math.Sin(Math.PI * x * y), 2));
         }
 
         double f2(double x, double y) // F*
@@ -92,7 +94,7 @@ namespace LAB_CHM_2023_3_1
 
             // Коэффициенты разностной схемы
             double h2 = 1.0 / (h * h), k2 = 1.0 / (k * k);
-            double A = 2 * (h2 + k2);
+            double A = -2 * (h2 + k2);
 
             double[][] rhs;   // Вектор правой части
             double[] x, y;  // Границы по х и по y
@@ -194,7 +196,7 @@ namespace LAB_CHM_2023_3_1
             {
                 for (int i = 1; i < n; i++)
                 {
-                    r[i][j] = A * v1[i][j] - h2 * (v1[i - 1][j] + v1[i + 1][j]) - k2 * (v1[i][j - 1] + v1[i][j + 1]) - rhs[i][j];
+                    r[i][j] = A * v1[i][j] + h2 * (v1[i - 1][j] + v1[i + 1][j]) + k2 * (v1[i][j - 1] + v1[i][j + 1]) - rhs[i][j];
                     p[i][j] = r[i][j];
                     rr_sum += r[i][j] * r[i][j];
                 }
@@ -218,7 +220,7 @@ namespace LAB_CHM_2023_3_1
                         // Сохраняем текущее приближение перед обновлением
                         v_old[i][j] = v1[i][j];
                         // Вычисляем pAp = p * Ap = p * (A * p)
-                        Ap[i][j] = A * p[i][j] - h2 * (p[i - 1][j] + p[i + 1][j]) - k2 * (p[i][j - 1] + p[i][j + 1]);
+                        Ap[i][j] = A * p[i][j] + h2 * (p[i - 1][j] + p[i + 1][j]) + k2 * (p[i][j - 1] + p[i][j + 1]);
                         pAp += p[i][j] * Ap[i][j];
                     }
                 }
@@ -276,7 +278,7 @@ namespace LAB_CHM_2023_3_1
 
             // =========  FILLING THE TABLE =========
 
-            /*dataGridView1.Rows.Clear();
+            dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
             dataGridView1.Columns.Add("C1", "");
             dataGridView1.Columns[0].Width = 50;
@@ -344,7 +346,7 @@ namespace LAB_CHM_2023_3_1
                     dataGridView3.Rows[j + 1].Cells[0].Value = j;
                     dataGridView3.Rows[j + 1].Cells[1].Value = y[j];
                 }
-            }*/
+            }
             double xMax = 0.0;
             double yMax = 0.0;
 
@@ -355,9 +357,9 @@ namespace LAB_CHM_2023_3_1
                 {
                     error = Math.Abs(u[i][j] - v1[i][j]);
 
-                    //dataGridView1.Rows[j + 1].Cells[i + 2].Value = u[i][j].ToString("0.000000000");
-                    //dataGridView2.Rows[j + 1].Cells[i + 2].Value = v1[i][j].ToString("0.000000000");
-                    //dataGridView3.Rows[j + 1].Cells[i + 2].Value = error.ToString("0.000000000");
+                    dataGridView1.Rows[j + 1].Cells[i + 2].Value = u[i][j].ToString("0.000000000");
+                    dataGridView2.Rows[j + 1].Cells[i + 2].Value = v1[i][j].ToString("0.000000000");
+                    dataGridView3.Rows[j + 1].Cells[i + 2].Value = error.ToString("0.000000000");
 
                     if (error > errorMax)
                     {
@@ -403,7 +405,7 @@ namespace LAB_CHM_2023_3_1
 
             // Коэффициенты разностной схемы
             double h2 = 1.0 / (h * h), k2 = 1.0 / (k * k);
-            double A = 2 * (h2 + k2);
+            double A = -2 * (h2 + k2);
 
             double[][] rhs = new double[n + 1][];   // Вектор правой части
             double[] x = new double[n + 1];
@@ -453,7 +455,7 @@ namespace LAB_CHM_2023_3_1
             // Коэффициенты для сетки с половинным шагом
             double h2_h = 1.0 / (h2_half * h2_half);
             double k2_h = 1.0 / (k2_half * k2_half);
-            double A_h = 2 * (h2_h + k2_h);
+            double A_h = -2 * (h2_h + k2_h);
 
             double[] x_half = new double[n2 + 1];
             double[] y_half = new double[m2 + 1];
@@ -523,7 +525,7 @@ namespace LAB_CHM_2023_3_1
             {
                 for (int i = 1; i < n; i++)
                 {
-                    r[i][j] = A * v2[i][j] - h2 * (v2[i - 1][j] + v2[i + 1][j]) - k2 * (v2[i][j - 1] + v2[i][j + 1]) - rhs[i][j];
+                    r[i][j] = A * v2[i][j] + h2 * (v2[i - 1][j] + v2[i + 1][j]) + k2 * (v2[i][j - 1] + v2[i][j + 1]) - rhs[i][j];
                     p[i][j] = r[i][j]; // Начальное направление p0 = r0
                     rr_old += r[i][j] * r[i][j];
                 }
@@ -543,7 +545,7 @@ namespace LAB_CHM_2023_3_1
                         // Сохраняем текущее приближение перед обновлением
                         v_old[i][j] = v2[i][j];
                         // Вычисляем pAp = p * Ap = p * (A * p)
-                        Ap[i][j] = A * p[i][j] - h2 * (p[i - 1][j] + p[i + 1][j]) - k2 * (p[i][j - 1] + p[i][j + 1]);
+                        Ap[i][j] = A * p[i][j] + h2 * (p[i - 1][j] + p[i + 1][j]) + k2 * (p[i][j - 1] + p[i][j + 1]);
                         pAp += p[i][j] * Ap[i][j];
                     }
                 }
@@ -640,7 +642,7 @@ namespace LAB_CHM_2023_3_1
             {
                 for (int i = 1; i < n2; i++)
                 {
-                    r_half[i][j] = A_h * v2_2[i][j] - h2_h * (v2_2[i - 1][j] + v2_2[i + 1][j]) - k2_h * (v2_2[i][j - 1] + v2_2[i][j + 1]) - rhs_half[i][j];
+                    r_half[i][j] = A_h * v2_2[i][j] + h2_h * (v2_2[i - 1][j] + v2_2[i + 1][j]) + k2_h * (v2_2[i][j - 1] + v2_2[i][j + 1]) - rhs_half[i][j];
                     p_half[i][j] = r_half[i][j];
                     rr_old_half += r_half[i][j] * r_half[i][j];
                 }
@@ -658,7 +660,7 @@ namespace LAB_CHM_2023_3_1
                     for (int i = 1; i < n2; i++)
                     {
                         v_old_half[i][j] = v2_2[i][j];
-                        Ap_half[i][j] = A_h * p_half[i][j] - h2_h * (p_half[i - 1][j] + p_half[i + 1][j]) - k2_h * (p_half[i][j - 1] + p_half[i][j + 1]);
+                        Ap_half[i][j] = A_h * p_half[i][j] + h2_h * (p_half[i - 1][j] + p_half[i + 1][j]) + k2_h * (p_half[i][j - 1] + p_half[i][j + 1]);
                     }
                 }
 
@@ -746,7 +748,7 @@ namespace LAB_CHM_2023_3_1
 
             // ========= FILLING THE TABLES =========
 
-            /*// Очистка и настройка таблиц
+            // Очистка и настройка таблиц
             dataGridView4.Rows.Clear();
             dataGridView4.Columns.Clear();
             dataGridView5.Rows.Clear();
@@ -816,7 +818,7 @@ namespace LAB_CHM_2023_3_1
                     dataGridView6.Rows[j + 1].Cells[0].Value = j;
                     dataGridView6.Rows[j + 1].Cells[1].Value = y[j];
                 }
-            }*/
+            }
 
             // Заполнение таблиц значениями
             for (int j = 0; j <= m; j++)
@@ -825,9 +827,9 @@ namespace LAB_CHM_2023_3_1
                 {
                     error = Math.Abs(v2[i][j] - v2_2[2 * i][2 * j]);
 
-                    //dataGridView4.Rows[j + 1].Cells[i + 2].Value = v2[i][j].ToString("0.000000000"); ;
-                    //dataGridView5.Rows[j + 1].Cells[i + 2].Value = v2_2[2 * i][2 * j].ToString("0.000000000"); ;
-                    //dataGridView6.Rows[j + 1].Cells[i + 2].Value = error.ToString("0.000000000"); ;
+                    dataGridView4.Rows[j + 1].Cells[i + 2].Value = v2[i][j].ToString("0.000000000");
+                    dataGridView5.Rows[j + 1].Cells[i + 2].Value = v2_2[2 * i][2 * j].ToString("0.000000000");
+                    dataGridView6.Rows[j + 1].Cells[i + 2].Value = error.ToString("0.000000000");
                 }
             }
 
